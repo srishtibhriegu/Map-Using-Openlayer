@@ -40,7 +40,7 @@ const MapComponent: React.FC = () => {
     setMap(newMap);
 
     return () => {
-      newMap.setTarget(null);
+      newMap.setTarget();
     };
   }, []);
 

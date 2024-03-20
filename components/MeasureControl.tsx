@@ -1,3 +1,4 @@
+// code for measurement of area and length
 import React, { useEffect, useState } from 'react';
 import Map from 'ol/Map';
 import Overlay from 'ol/Overlay';
@@ -17,9 +18,6 @@ const MeasureControl: React.FC<MeasureControlProps> = ({ map }) => {
     const overlay = new Overlay({
       element: document.createElement('div'),
       autoPan: false,
-      autoPanAnimation: {
-        duration: 250,
-      },
     });
 
     map.addOverlay(overlay);

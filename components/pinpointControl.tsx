@@ -1,3 +1,4 @@
+//code for place a placeholder in map
 import React, { useEffect, useState } from 'react';
 import Map from 'ol/Map';
 import Feature from 'ol/Feature';
@@ -19,7 +20,7 @@ const PinpointControl: React.FC<PinpointProps> = ({ map, placeholderSrc }) => {
   useEffect(() => {
     if (!map) return;
 
-    // Create a VectorSource to hold the pinpoint icon as a Feature
+    
     const vectorSource = new VectorSource({
       features: [
         new Feature({
@@ -28,38 +29,30 @@ const PinpointControl: React.FC<PinpointProps> = ({ map, placeholderSrc }) => {
       ]
     });
 
-    // Create a Style for the pinpoint icon
     const iconStyle = new Style({
       image: new Icon({
         src: placeholderSrc,
         scale: 0.05
       })
     });
-
-    // Apply the style to the pinpoint icon Feature
     vectorSource.getFeatures()[0]?.setStyle(iconStyle);
 
-    // Create a VectorLayer to display the pinpoint icon
     const vectorLayer = new VectorLayer({
       source: vectorSource
     });
 
-    // Add the VectorLayer to the map
+
     map.addLayer(vectorLayer);
 
-    // Store the Feature representing the pinpoint for future updates
     setPinpointFeature(vectorSource.getFeatures()[0]);
 
-    // Create a Translate interaction
     const translateInteraction = new Translate({
-      features: new Collection([vectorSource.getFeatures()[0]]), // Pass the feature to be translated
+      features: new Collection([vectorSource.getFeatures()[0]]), 
     });
 
-    // Add the Translate interaction to the map
     map.addInteraction(translateInteraction);
 
     return () => {
-      // Clean up the interaction when component unmounts
       map.removeInteraction(translateInteraction);
     };
   }, [map, placeholderSrc]);
@@ -67,18 +60,14 @@ const PinpointControl: React.FC<PinpointProps> = ({ map, placeholderSrc }) => {
   useEffect(() => {
     if (!map || !pinpointFeature) return;
 
-    // Add a click event listener to the map
     const onClick = (event: any) => {
-      // Get the clicked coordinate
       const clickedCoord = event.coordinate;
-      // Set the coordinate of the pinpoint feature to the clicked coordinate
       pinpointFeature.setGeometry(new Point(clickedCoord));
     };
 
     map.on('click', onClick);
 
     return () => {
-      // Clean up the event listener when component unmounts
       map.un('click', onClick);
     };
   }, [map, pinpointFeature]);
